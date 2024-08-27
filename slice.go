@@ -54,3 +54,14 @@ func (s *Slice[T]) UnmarshalText(bytes []byte) (err error) {
 
 	return
 }
+
+func (s *Slice[T]) UnmarshalBinary(bytes []byte) (err error) {
+	t := new(T)
+	if ue := toml.Unmarshal(bytes, t); nil != ue {
+		err = toml.Unmarshal(bytes, s)
+	} else {
+		*s = []*T{t}
+	}
+
+	return
+}
