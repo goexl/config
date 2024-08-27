@@ -1,3 +1,5 @@
-module github.com/goexl/wanip
+module github.com/goexl/config
 
-go 1.19
+go 1.23
+
+require gopkg.in/yaml.v3 v3.0.1
