@@ -3,6 +3,11 @@ module github.com/goexl/config
 go 1.23
 
 require (
-	github.com/pelletier/go-toml/v2 v2.2.3
+	github.com/naoina/toml v0.1.1
 	gopkg.in/yaml.v3 v3.0.1
+)
+
+require (
+	github.com/kylelemons/godebug v1.1.0 // indirect
+	github.com/naoina/go-stringutil v0.1.0 // indirect
 )

@@ -1,0 +1,18 @@
+user:
+  age: 39
+  name: storezhang
+user_ptr:
+  age: 19
+  name: store
+users:
+  - age: 29
+    name: yusiming
+  - age: 49
+    name: zhangzongliang
+users_ptr:
+  - age: 29
+    name: zhang
+  - age: 18
+    name: yu
+  - age: 21
+    name: test
