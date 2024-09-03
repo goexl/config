@@ -5,7 +5,8 @@ import (
 	"encoding/xml"
 
 	"github.com/goexl/config/internal/constant"
-	"github.com/naoina/toml"
+	"github.com/pelletier/go-toml/v2"
+	"github.com/pelletier/go-toml/v2/unstable"
 	"gopkg.in/yaml.v3"
 )
 
@@ -79,19 +80,18 @@ func (s *Slice[T]) UnmarshalYAML(node *yaml.Node) (err error) {
 	return
 }
 
-func (s *Slice[T]) UnmarshalTOML(bytes []byte) (err error) {
+func (s *Slice[T]) UnmarshalTOML(value *unstable.Node) (err error) {
 	t := new(T)
 	ts := make([]T, 0)
-	first := bytes[0]
-	start := string(bytes[0:1])
-	if constant.TomlArrayStart == start {
-		err = toml.Unmarshal(bytes, &ts)
-	} else if constant.TomlObjectStart == first {
-		err = toml.Unmarshal(bytes, t)
+	kind := value.Kind
+	if unstable.ArrayTable == kind {
+		err = toml.Unmarshal(value.Data, &ts)
+	} else if unstable.Table == kind {
+		err = toml.Unmarshal(value.Data, t)
 	}
-	if constant.TomlObjectStart == first && nil == err {
+	if unstable.Table == kind && nil == err {
 		*s = []T{*t}
-	} else if constant.TomlArrayStart == start && nil == err {
+	} else if unstable.ArrayTable == kind && nil == err {
 		*s = ts
 	}
 

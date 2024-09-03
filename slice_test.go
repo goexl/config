@@ -1,13 +1,14 @@
 package config_test
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"os"
 	"testing"
 
 	"github.com/goexl/config"
-	"github.com/naoina/toml"
+	"github.com/pelletier/go-toml/v2"
 	"gopkg.in/yaml.v3"
 )
 
@@ -55,9 +56,9 @@ func TestSliceYAML(t *testing.T) {
 
 func TestSliceTOML(t *testing.T) {
 	slice := new(UserSlice)
-	if bytes, rfe := os.ReadFile("testdata/user_slice.toml"); nil != rfe {
+	if content, rfe := os.ReadFile("testdata/user_slice.toml"); nil != rfe {
 		t.Errorf("读取文件内容出错，%v", rfe)
-	} else if ue := toml.Unmarshal(bytes, slice); nil != ue {
+	} else if ue := toml.NewDecoder(bytes.NewReader(content)).EnableUnmarshalerInterface().Decode(slice); nil != ue {
 		t.Errorf("反序列化TOML出错，%v", ue)
 	} else {
 		checkUserSlice(t, slice)
